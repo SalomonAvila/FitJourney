@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import {client} from "../API/client"
-
+import '../styles/Login.css'
 function Login(){
 
     const [email,setEmail] = useState("");
@@ -21,9 +21,9 @@ function Login(){
 
             <form onSubmit={handleSubmit}>
 
-            <input type="email" name="email" placeholder="correo@site.com" id="" 
+            <input type="email" name="email" placeholder="correo@site.com" id="espacioTexto" 
             onChange={(e) => setEmail(e.target.value)}/>
-            <button>
+            <button id='boton'>
                 Send
             </button>
 
