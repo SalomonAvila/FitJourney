@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { client } from "../API/client";
+import { useNavigate } from "react-router-dom";
 import "../styles/InformacionPerfil.css";
 
 function InformacionPerfil() {
@@ -122,6 +123,7 @@ function InformacionPerfil() {
           <button onClick={() => setEditandoFecha(false)}>Cancelar</button>
         </div>
       )}
+      <button onClick={() => navigator("/")}></button>
     </div>
   );
 }
