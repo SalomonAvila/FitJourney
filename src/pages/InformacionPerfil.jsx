@@ -37,10 +37,10 @@ function InformacionPerfil() {
   return (
     <div id="info">
       <h1>Informacion del perfil</h1>
+      <h2>ID: {perfil.id}</h2>
+      <h2>Correo: {perfil.correo}</h2>
       <h2>Nombre: {perfil.nombre}</h2>
-      <h2>Email: {perfil.email}</h2>
-      <h2>Teléfono: {perfil.telefono}</h2>
-      <h2>Dirección: {perfil.direccion}</h2>
+      <h2>Fecha de nacimieto: {perfil.fechaDeNacimiento}</h2>
     </div>
   );
 }

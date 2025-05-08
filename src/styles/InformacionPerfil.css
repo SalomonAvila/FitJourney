@@ -7,7 +7,7 @@
     min-height: calc(100vh - 60px); /* Resta la altura de la navbar */
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: black;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
@@ -17,14 +17,14 @@
   h1 {
     text-align: center;
     font-size: 32px;
-    color: #333;
+    color: white;
     margin-bottom: 20px;
   }
   
   /* Estilo para los subtítulos */
   h2 {
     font-size: 22px;
-    color: #555;
+    color: white;
     margin: 10px 0;
   }
   
@@ -36,7 +36,7 @@
   
   /* Fondo de la página */
   body {
-    background-color: #eef2f3;
+    background-color: black;
     margin: 0;
     padding: 0;
   }
