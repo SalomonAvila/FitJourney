@@ -1,33 +1,41 @@
-
-import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import './styles/App.css'
-import {Routes} from 'react-router-dom'
-import { Route } from 'react-router-dom'
-import NoEncontrado from './pages/NoEncontrado'
-import { client } from './API/client'
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import './styles/App.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import NoEncontrado from './pages/NoEncontrado';
+import { client } from './API/client';
 
 function App() {
+  const [estaAutenticado, setEstaAutenticado] = useState(null);
 
-  const estaAutenticado = () => {
-    const user = client.auth.getUser()
-    return !!user;
+  useEffect(() => {
+    const revisarAutenticacionSupabase = async () => {
+      const { data: { user } } = await client.auth.getUser();
+      setEstaAutenticado(!!user);
+    };
+
+    revisarAutenticacionSupabase();
+  }, []);
+
+  if (estaAutenticado === null) {
+    return <div style={{ color: 'white' }}>Cargando...</div>;
   }
 
-
   return (
-    
-    <div className='App'>
-    <Navbar/>
+    <div className="App">
+      <Navbar />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='*' element={<NoEncontrado/>}/>
+        <Route
+          path="/"
+          element={estaAutenticado ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
-    
-  )
+  );
 }
 
-export default App
+export default App;
