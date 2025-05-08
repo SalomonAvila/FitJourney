@@ -28,11 +28,22 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
+        {/* Ruta raíz redirige según el estado de autenticación */}
         <Route
           path="/"
-          element={estaAutenticado ? <InformacionPerfil /> : <Navigate to="/informacionPerfil" />}
+          element={estaAutenticado ? <Navigate to="/informacionPerfil" /> : <Navigate to="/login" />}
         />
-        <Route path="/login" element={<Login />} />
+        {/* Ruta para la información del perfil */}
+        <Route
+          path="/informacionPerfil"
+          element={estaAutenticado ? <InformacionPerfil /> : <Navigate to="/login" />}
+        />
+        {/* Ruta para el login */}
+        <Route
+          path="/login"
+          element={!estaAutenticado ? <Login /> : <Navigate to="/informacionPerfil" />}
+        />
+        {/* Ruta para páginas no encontradas */}
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
