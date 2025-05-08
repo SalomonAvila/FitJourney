@@ -16,7 +16,7 @@ function InformacionPerfil() {
         console.log("No hay usuario ")
     }
     const {data, error} = await client.from('usuario').select('*').eq('id',user.id)
-    console.log({datos})
+    console.log({data})
     return {
       id: data.id || "NULL",
       correo: data.correo || "NULL",
