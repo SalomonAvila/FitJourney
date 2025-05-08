@@ -30,15 +30,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={estaAutenticado ? <Navigate to="/informacionPerfil" /> : <Navigate to="/login" />}
+          element={<Home estaAutenticado={estaAutenticado} />} 
         />
         <Route
           path="/informacionPerfil"
-          element={estaAutenticado ? <InformacionPerfil /> : <Navigate to="/login" />}
+          element={estaAutenticado ? <InformacionPerfil /> : <Login />}
         />
         <Route
           path="/login"
-          element={!estaAutenticado ? <Login /> : <Navigate to="/informacionPerfil" />}
+          element={!estaAutenticado ? <Login /> : <InformacionPerfil />}
         />
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
