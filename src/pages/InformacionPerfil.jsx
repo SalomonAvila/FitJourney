@@ -11,9 +11,9 @@ function InformacionPerfil() {
   });
 
   const [nuevoNombre, setNombreNuevo] = useState(""); 
-  const [nuevoCorreo, setCorreoNuevo] = useState("");
+  const [nuevaFecha, setNuevaFecha] = useState("");
   const [editandoNombre, setEditandoNombre] = useState(false);
-  const [editandoCorreo, setEditandoCorreo] = useState(false);
+  const [editandoFecha, setEditandoFecha] = useState(false);
 
   const extraerNombre = async () => {
     // Consulta en supabase
@@ -67,23 +67,23 @@ function InformacionPerfil() {
     }
   };
 
-  const actualizarCorreo = async () => {
+  const actualizarFecha = async () => {
     const {
         data: { user },
       } = await client.auth.getUser();
   
       const { error } = await client
         .from("usuario")
-        .update({ correo: nuevoCorreo })
+        .update({ fechanacimiento: nuevaFecha })
         .eq("id", user.id);
   
       if (error) {
-        console.log("Error al actualizar nombre:", error);
+        console.log("Error al actualizar la fecha de nacimiento:", error);
       } else {
         const actualizado = await extraerNombre();
         setPerfil(actualizado);
-        setCorreoNuevo("");
-        setEditandoCorreo(false);
+        setNuevaFecha("");
+        setEditandoFecha(false);
       }
   }
 
@@ -93,20 +93,6 @@ function InformacionPerfil() {
     <div id="info">
       <h1>Informacion del perfil</h1>
       <h2>Correo: {perfil.correo}</h2>
-      {!editandoCorreo ? (
-        <button onClick={() => setEditandoCorreo(true)}>Cambiar correo</button>
-      ) : (
-        <div>
-          <input
-            type="text"
-            placeholder="Nuevo correo"
-            value={nuevoCorreo}
-            onChange={(e) => setCorreoNuevo(e.target.value)}
-          />
-          <button onClick={actualizarCorreo}>Guardar</button>
-          <button onClick={() => setEditandoCorreo(false)}>Cancelar</button>
-        </div>
-      )}
       <h2>Nombre: {perfil.nombre}</h2>
       {!editandoNombre ? (
         <button onClick={() => setEditandoNombre(true)}>Cambiar nombre</button>
@@ -123,6 +109,19 @@ function InformacionPerfil() {
         </div>
       )}
       <h2>Fecha de nacimieto: {perfil.fechaDeNacimiento}</h2>
+      {!editandoFecha ? (
+        <button onClick={() => setEditandoFecha(true)}>Cambiar correo</button>
+      ) : (
+        <div>
+          <input
+            type="date"
+            value={nuevaFecha}
+            onChange={(e) => setNuevaFecha(e.target.value)}
+          />
+          <button onClick={actualizarFecha}>Guardar</button>
+          <button onClick={() => setEditandoFecha(false)}>Cancelar</button>
+        </div>
+      )}
     </div>
   );
 }
