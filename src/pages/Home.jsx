@@ -12,7 +12,7 @@ function Home(){
         if(error){
             console.log("Error, revisa el codigo")
         }else{
-            establecerDatos(data.user.id)
+            establecerDatos(data)
         }
     };
 
