@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import '../styles/Home.css'
 import { client } from '../API/client'
 
 function Home(){
 
     const [datosDeUsuario, establecerDatos] = useState(null)
+    const navigate = useNavigate()
 
     const obtenerDatos = async () => {
         const { data, error } = await client.auth.getUser()
@@ -34,7 +36,7 @@ function Home(){
     return (
         
         <div id="titulo">
-            <h1>Bienvenido, tu UID es: {datosDeUsuario ? datosDeUsuario.id : "Cargando..."}</h1>
+            <h1>Bienvenido a FitJourney</h1>
             <form onSubmit={logOut}>
                 <button>Log out</button>
             </form>

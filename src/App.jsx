@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import InformacionPerfil from './pages/InformacionPerfil'
+import AnadirRuta from './pages/AnadirRuta';
 import './styles/App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import NoEncontrado from './pages/NoEncontrado';
@@ -40,6 +41,9 @@ function App() {
           path="/login"
           element={!estaAutenticado ? <Login /> : <InformacionPerfil />}
         />
+        <Route
+          path="/anadirRuta"
+          element={estaAutenticado ? <AnadirRuta /> : <Login/>}/>
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
