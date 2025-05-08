@@ -9,11 +9,13 @@ function Home(){
 
     const obtenerDatos = async () => {
         const { data, error } = await client.auth.getUser()
+
         if(error){
             console.log("Error, revisa el codigo")
         }else{
             establecerDatos(data.user)
         }
+        
     };
 
     const logOut = async (e) => {

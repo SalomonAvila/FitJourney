@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import InformacionPerfil from './pages/InformacionPerfil'
 import './styles/App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import NoEncontrado from './pages/NoEncontrado';
@@ -29,7 +30,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={estaAutenticado ? <Home /> : <Navigate to="/login" />}
+          element={estaAutenticado ? <InformacionPerfil /> : <Navigate to="/informacionPerfil" />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NoEncontrado />} />
