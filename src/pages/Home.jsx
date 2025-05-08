@@ -24,7 +24,7 @@ function Home(){
     return (
         
         <div id="titulo">
-            <h1>Bienvenido, tu UID es: {uid ? uid : "Cargando..."}</h1>
+            <h1>Bienvenido, tu UID es: {datosDeUsuario ? datosDeUsuario : "Cargando..."}</h1>
         </div>
     )
 }
