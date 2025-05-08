@@ -17,11 +17,12 @@ function InformacionPerfil() {
     }
     const {data, error} = await client.from('usuario').select('*').eq('id',user.id)
     console.log({data})
+    const {miID, miCorreo, miNombre, miFechaDeNacimiento} = data[0]
     return {
-      id: data.id || "NULL",
-      correo: data.correo || "NULL",
-      nombre: data.nombre || "NULL",
-      fechaDeNacimiento: data.fechanacimiento || "NULL",
+      id: miID || "NULL",
+      correo: miCorreo || "NULL",
+      nombre: miNombre || "NULL",
+      fechaDeNacimiento: miFechaDeNacimiento || "NULL",
     };
   };
 
