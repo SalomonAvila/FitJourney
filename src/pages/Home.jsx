@@ -16,6 +16,14 @@ function Home(){
         }
     };
 
+    const logOut = async (e) => {
+        try{
+            await client.auth.signOut()
+        }catch(error){
+            console.log("Un error cerrando sesion")
+        }
+    }
+
     useEffect(() => {
         obtenerDatos();
     }, []);
@@ -25,6 +33,9 @@ function Home(){
         
         <div id="titulo">
             <h1>Bienvenido, tu UID es: {datosDeUsuario ? datosDeUsuario : "Cargando..."}</h1>
+            <form onSubmit={logOut}>
+                <button>Log out</button>
+            </form>
         </div>
     )
 }
