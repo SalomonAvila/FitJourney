@@ -35,7 +35,7 @@ function InformacionPerfil() {
   }, []);
 
   return (
-    <div id="#info">
+    <div id="info">
       <h1>Informacion del perfil</h1>
       <h2>Nombre: {perfil.nombre}</h2>
       <h2>Email: {perfil.email}</h2>
