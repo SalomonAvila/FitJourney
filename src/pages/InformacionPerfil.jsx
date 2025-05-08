@@ -123,7 +123,7 @@ function InformacionPerfil() {
           <button onClick={() => setEditandoFecha(false)}>Cancelar</button>
         </div>
       )}
-      <button onClick={() => navigator("/")}>Volver a la pagina inicial</button>
+      <button onClick={() => useNavigate("/")}>Volver a la pagina inicial</button>
     </div>
   );
 }
