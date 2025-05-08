@@ -21,15 +21,12 @@ function App() {
     <div className='App'>
     <Navbar/>
       <Routes>
-        {/* Redirige al login si no está autenticado */}
-        <Route
-          path="/"
-          element={isAuthenticated() ? <Home /> : <Navigate to="/login" />}
-        />
+        <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='*' element={<NoEncontrado/>}/>
       </Routes>
     </div>
+    
   )
 }
 
