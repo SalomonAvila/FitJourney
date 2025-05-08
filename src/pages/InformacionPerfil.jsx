@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { client } from "../API/client";
-import '../styles/InformacionPerfil.css'
+import "../styles/InformacionPerfil.css";
 function InformacionPerfil() {
   const [perfil, setPerfil] = useState({
     id: "NULL",
@@ -11,18 +11,24 @@ function InformacionPerfil() {
 
   const extraerNombre = async () => {
     // Consulta en supabase
-    const { data: { user }, error: userError } = await client.auth.getUser();
-    if(userError){
-        console.log("No hay usuario ")
+    const {
+      data: { user },
+      error: userError,
+    } = await client.auth.getUser();
+    if (userError) {
+      console.log("No hay usuario ");
     }
-    const {data, error} = await client.from('usuario').select('*').eq('id',user.id)
-    console.log({data})
-    const {miID, miCorreo, miNombre, miFechaDeNacimiento} = data[0]
+    const { data, error } = await client
+      .from("usuario")
+      .select("*")
+      .eq("id", user.id);
+    console.log({ data });
+    const { id, correo, nombre, fechanacimiento } = data[0];
     return {
-      id: miID || "NULL",
-      correo: miCorreo || "NULL",
-      nombre: miNombre || "NULL",
-      fechaDeNacimiento: miFechaDeNacimiento || "NULL",
+      id: id || "NULL",
+      correo: correo || "NULL",
+      nombre: nombre || "NULL",
+      fechaDeNacimiento: fechanacimiento || "NULL",
     };
   };
 
