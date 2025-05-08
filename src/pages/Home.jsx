@@ -8,11 +8,11 @@ function Home(){
     const [datosDeUsuario, establecerDatos] = useState(null)
 
     const obtenerDatos = async () => {
-        const { data, error } = await client.auth.getUserIdentities()
+        const { data, error } = await client.auth.getUser()
         if(error){
             console.log("Error, revisa el codigo")
         }else{
-            establecerDatos(data)
+            establecerDatos(data.user)
         }
     };
 
@@ -32,7 +32,7 @@ function Home(){
     return (
         
         <div id="titulo">
-            <h1>Bienvenido, tu UID es: {datosDeUsuario}</h1>
+            <h1>Bienvenido, tu UID es: {datosDeUsuario ? datosDeUsuario.id : "Cargando..."}</h1>
             <form onSubmit={logOut}>
                 <button>Log out</button>
             </form>
