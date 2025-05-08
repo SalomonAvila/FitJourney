@@ -11,14 +11,17 @@ function InformacionPerfil() {
 
   const extraerNombre = async () => {
     // Consulta en supabase
-    const {user} = await client.auth.getUser()
-    const {datos} = await client.from('usuario').select('*').eq('id',user.data.user.id)
+    const { data: { user }, error: userError } = await client.auth.getUser();
+    if(userError){
+        console.log("No hay usuario ")
+    }
+    const {data, error} = await client.from('usuario').select('*').eq('id',user.id)
     console.log({datos})
     return {
-      id: "NULL",
-      correo: "NULL",
-      nombre: "NULL",
-      fechaDeNacimiento: "NULL",
+      id: data.id || "NULL",
+      correo: data.correo || "NULL",
+      nombre: data.nombre || "NULL",
+      fechaDeNacimiento: data.fechanacimiento || "NULL",
     };
   };
 
