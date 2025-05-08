@@ -15,6 +15,7 @@ function InformacionPerfil() {
   const [nuevaFecha, setNuevaFecha] = useState("");
   const [editandoNombre, setEditandoNombre] = useState(false);
   const [editandoFecha, setEditandoFecha] = useState(false);
+  const navigate = useNavigate()
 
   const extraerNombre = async () => {
     // Consulta en supabase
@@ -123,7 +124,7 @@ function InformacionPerfil() {
           <button onClick={() => setEditandoFecha(false)}>Cancelar</button>
         </div>
       )}
-      <button onClick={() => useNavigate("/")}>Volver a la pagina inicial</button>
+      <button onClick={() => navigate("/")}>Volver a la pagina inicial</button>
     </div>
   );
 }
