@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { client } from "../API/client";
-
+import '../styles/InformacionPerfil.css'
 function InformacionPerfil() {
   const [perfil, setPerfil] = useState({
     id: "NULL",
