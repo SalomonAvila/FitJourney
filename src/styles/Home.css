@@ -20,9 +20,11 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Estilo para los formularios */
-form {
-    margin: 10px 0;
+/* Contenedor para agrupar los botones */
+#titulo .button-container {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+    margin-top: 20px;
 }
 
 /* Estilo para los botones */
