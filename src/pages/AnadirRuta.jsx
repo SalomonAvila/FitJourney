@@ -1,13 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 
-function AnadirRuta(){
+function AnadirRuta() {
+    const [rutas, setRutas] = useState([""]);
 
-    return(
+    const handleAddRuta = () => {
+        setRutas([...rutas, ""]);
+    };
+
+    const handleChangeRuta = (index, value) => {
+        const nuevasRutas = [...rutas];
+        nuevasRutas[index] = value;
+        setRutas(nuevasRutas);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Nombre:", e.target.nombre.value);
+        console.log("Rutas:", rutas);
+    };
+
+    return (
         <div>
-            <h1>Creacion de ruta</h1>
+            <h1>Creación de ruta</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required />
+                </div>
+                {rutas.map((ruta, index) => (
+                    <div key={index}>
+                        <label htmlFor={`ruta-${index}`}>Dirección {index + 1}:</label>
+                        <input
+                            type="text"
+                            id={`ruta-${index}`}
+                            value={ruta}
+                            onChange={(e) => handleChangeRuta(index, e.target.value)}
+                            required
+                        />
+                    </div>
+                ))}
+                <button type="button" onClick={handleAddRuta}>
+                    Añadir otra dirección
+                </button>
+                <button type="submit">Enviar</button>
+            </form>
         </div>
-    )
-
-};
+    );
+}
 
 export default AnadirRuta;
