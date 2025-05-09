@@ -31,22 +31,31 @@ function AnadirRuta() {
     }
 
     const actualizarBase = async (nombre, rutas) => {
-        const {datas} = await client.auth.getUser();
-        const userId = datas.user.id;
+    try {
+        const { data: authData, error: authError } = await client.auth.getUser();
+        if (authError || !authData || !authData.user) {
+            throw new Error("No se pudo obtener la información del usuario. Asegúrate de estar autenticado.");
+        }
+
+        const userId = authData.user.id;
+
         const { data, error } = await client
             .from("rutapersonalizada")
             .insert({
-                    nombreruta: nombre,
-                    idusuario: userId,
-                    direcciones: rutas,
-                },
-            );
+                nombreruta: nombre,
+                idusuario: userId,
+                direcciones: rutas,
+            });
+
         if (error) {
             console.error("Error al insertar en la base de datos:", error);
         } else {
             console.log("Datos insertados correctamente:", data);
         }
+    } catch (error) {
+        console.error("Error en actualizarBase:", error.message);
     }
+};
 
     return (
         <div>
