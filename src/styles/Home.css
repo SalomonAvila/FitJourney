@@ -21,12 +21,14 @@
 }
 
 /* Contenedor para agrupar los botones */
+/* Contenedor para agrupar los botones */
 #titulo .button-container {
     display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center; /* Alinea los botones verticalmente */
     gap: 10px; /* Espaciado entre los botones */
     margin-top: 20px;
 }
-
 /* Estilo para los botones */
 button {
     background-color: #007bff;

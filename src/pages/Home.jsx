@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../styles/Home.css'
 import { client } from '../API/client'
 
-function Home(){
+function Home() {
 
     const [datosDeUsuario, establecerDatos] = useState(null)
     const navigate = useNavigate()
@@ -12,18 +12,18 @@ function Home(){
     const obtenerDatos = async () => {
         const { data, error } = await client.auth.getUser()
 
-        if(error){
+        if (error) {
             console.log("Error, revisa el codigo")
-        }else{
+        } else {
             establecerDatos(data.user)
         }
-        
+
     };
 
     const logOut = async (e) => {
-        try{
+        try {
             await client.auth.signOut()
-        }catch(error){
+        } catch (error) {
             console.log("Un error cerrando sesion")
         }
     }
@@ -35,18 +35,20 @@ function Home(){
     const logIn = async () => {
         navigate("/login")
     }
-    
+
 
     return (
-        
+
         <div id="titulo">
             <h1>Bienvenido a FitJourney</h1>
-            <form onSubmit={logOut}>
-                <button>Log out</button>
-            </form>
-            <form onSubmit={logIn}>
-                <button>Iniciar sesion</button>
-            </form>
+            <div className="button-container">
+                <form onSubmit={logOut}>
+                    <button>Log out</button>
+                </form>
+                <form onSubmit={logIn}>
+                    <button>Iniciar sesion</button>
+                </form>
+            </div>
         </div>
     )
 }
