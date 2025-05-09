@@ -1,4 +1,47 @@
+/* Estilo para el contenedor principal */
 #titulo {
-    font-size: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: black;
     color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilo para el título principal */
+#titulo h1 {
+    font-size: 48px;
+    color: aqua;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para los formularios */
+form {
+    margin: 10px 0;
+}
+
+/* Estilo para los botones */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    transform: scale(0.96);
 }
