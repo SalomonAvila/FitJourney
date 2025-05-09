@@ -19,6 +19,12 @@ function AnadirRuta() {
         console.log("Rutas:", rutas);
     };
 
+    const handleRetirarRuta = () => {
+        if (rutas.length > 1) {
+            setRutas(rutas.slice(0, -1));
+        }
+    }
+
     return (
         <div>
             <h1>Creación de ruta</h1>
@@ -41,6 +47,9 @@ function AnadirRuta() {
                 ))}
                 <button type="button" onClick={handleAddRuta}>
                     Añadir otra dirección
+                </button>
+                <button type="button" onClick={handleRetirarRuta}>
+                    Retirar ultima direccion
                 </button>
                 <button type="submit">Enviar</button>
             </form>
