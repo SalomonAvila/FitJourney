@@ -31,6 +31,10 @@ function Home(){
     useEffect(() => {
         obtenerDatos();
     }, []);
+
+    const logIn = async () => {
+        navigate("/login")
+    }
     
 
     return (
@@ -39,6 +43,9 @@ function Home(){
             <h1>Bienvenido a FitJourney</h1>
             <form onSubmit={logOut}>
                 <button>Log out</button>
+            </form>
+            <form onSubmit={logIn}>
+                <button>Iniciar sesion</button>
             </form>
         </div>
     )
