@@ -15,8 +15,7 @@ function AnadirRuta() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Nombre:", e.target.nombre.value);
-        console.log("Rutas:", rutas);
+        console.log({e});
     };
 
     const handleRetirarRuta = () => {
