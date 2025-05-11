@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { client } from "@/API/client";
+import { client } from "../API/client";
 
 function VerRuta(){
 
