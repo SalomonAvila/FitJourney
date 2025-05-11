@@ -4,8 +4,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import InformacionPerfil from './pages/InformacionPerfil'
 import AnadirRuta from './pages/AnadirRuta';
+import VerRuta from './pages/VerRuta';
 import './styles/App.css';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import NoEncontrado from './pages/NoEncontrado';
 import { client } from './API/client';
 
@@ -44,6 +45,9 @@ function App() {
         <Route
           path="/anadirRuta"
           element={estaAutenticado ? <AnadirRuta /> : <Login/>}/>
+        <Route 
+          path="/verRuta"
+          element={estaAutenticado ? <VerRuta /> : <Login/>}/>
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
