@@ -10,9 +10,9 @@ const Navbar = () => {
     <nav>
       <h1>FitJourney</h1>
       <ul>
-        <li><a href="#home" onClick={() => navigate("/")}>Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#Inicio" onClick={() => navigate("/")}>Inicio</a></li>
+        <li><a href="#Perfil" onClick={() => navigate("/informacionPerfil")}>Perfil</a></li>
+        <li><a href="#Rutas" onClick={() => navigate("/anadirRuta")}>Rutas</a></li>
       </ul>
     </nav>
   );
