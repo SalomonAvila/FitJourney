@@ -7,15 +7,15 @@ function VerRuta(){
 
     const conseguirRutas = async () => {
         try{
-            const {datos, error} = await client
+            const {data, error} = await client
                                     .from("rutapersonalizada")
                                     .select('nombreruta, direcciones, usuario!inner(id)')
                                     .eq("usuario.id", (await (client.auth.getUser())).data.user.id)
             if(error){
                 console.log("Revisa el codigo")
             }else{
-                console.log(datos)
-                setRutas(datos)
+                console.log(data)
+                setRutas(data)
             }
         }catch(error){
             console.log("Error, revisa el codigo")
