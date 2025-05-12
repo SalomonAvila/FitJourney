@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { client } from "../API/client";
+import '../styles/VerRuta.css'
 
 function VerRuta(){
     const [rutas, setRutas] = useState([])
@@ -27,7 +28,7 @@ function VerRuta(){
     }, [])
 
     return(
-        <div>
+        <div id="contenedor">
             <h1>Prueba de visualización</h1>
             <h2>Rutas asociadas al usuario:</h2>
             <ul>
