@@ -10,7 +10,7 @@ function VerRuta(){
         try{
             const {data, error} = await client
                                     .from("rutapersonalizada")
-                                    .select('nombreruta, direcciones, usuario!inner(id)')
+                                    .select('idrutapersonalizada, nombreruta, direcciones, usuario!inner(id)')
                                     .eq("usuario.id", (await (client.auth.getUser())).data.user.id)
             if(error){
                 console.log("Revisa el codigo")
@@ -52,7 +52,7 @@ function VerRuta(){
                 {rutas.map((ruta) => (
                     <li key={ruta.idrutapersonalizada}>
                         <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
-                        <strong>Direcciones:</strong> {ruta.direcciones.join(", ")} <br />
+                        <strong>Direcciones:</strong> {Array.isArray(ruta.direcciones) ? ruta.direcciones.join(", ") : ruta.direcciones}
                         <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
                             Eliminar ruta
                         </button>
