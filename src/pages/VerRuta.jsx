@@ -23,6 +23,23 @@ function VerRuta(){
         }
     }
 
+    const eliminarRuta = async (idDeRuta) => {
+        try{
+            const {error} = await client
+                                .from("rutapersonalizada")
+                                .delete()
+                                .eq("idrutapersonalizada", idRuta);
+            if(error){
+                console.log("Revise el codigo pa")
+            }else{
+                console.log("La ruta se elimino");
+                setRutas(rutas.filter((ruta) => ruta.idrutapersonalizada !== idRuta))
+            }
+        }catch(error){
+            console.log("Error, revise la consulta de eliminacion")
+        }
+    }
+
     useEffect(() => {
         conseguirRutas()
     }, [])
@@ -36,6 +53,9 @@ function VerRuta(){
                     <li key={ruta.idrutapersonalizada}>
                         <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
                         <strong>Direcciones:</strong> {ruta.direcciones.join(", ")} <br />
+                        <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
+
+                        </button>
                     </li>
                 ))}
             </ul>
