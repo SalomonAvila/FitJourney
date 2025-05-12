@@ -53,6 +53,7 @@ function VerRuta(){
                     <li key={ruta.idrutapersonalizada}>
                         <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
                         <strong>Direcciones:</strong> {Array.isArray(ruta.direcciones) ? ruta.direcciones.join(", ") : ruta.direcciones}
+                        <br />
                         <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
                             Eliminar ruta
                         </button>
