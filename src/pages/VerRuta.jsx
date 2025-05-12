@@ -9,12 +9,8 @@ function VerRuta(){
         try{
             const {datos, error} = await client
                                     .from("rutapersonalizada")
-                                    .select(`
-                                        idrutapersonalizada,
-                                        nombreruta,
-                                        direcciones,
-                                    `)
-                                    .eq("usuario.id", client.auth.getUser())
+                                    .select('nombreruta, direcciones, usuario!inner(id)')
+                                    .eq("usuario.id", (await (client.auth.getUser())).data.user.id)
             if(error){
                 console.log("Revisa el codigo")
             }else{
