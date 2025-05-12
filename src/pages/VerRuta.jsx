@@ -18,6 +18,7 @@ function VerRuta(){
             if(error){
                 console.log("Revisa el codigo")
             }else{
+                console.log({datos})
                 setRutas(datos)
             }
         }catch(error){
