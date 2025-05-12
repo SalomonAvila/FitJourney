@@ -20,9 +20,12 @@ function AnadirRuta() {
     try {
         await actualizarBase(nombre, rutas);
         console.log("Formulario enviado correctamente");
+        setRutas([""])
+        e.target.reset()
     } catch (error) {
         console.error("Error al enviar el formulario:", error);
     }
+
 };
     const handleRetirarRuta = () => {
         if (rutas.length > 1) {
