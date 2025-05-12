@@ -112,7 +112,7 @@ function InformacionPerfil() {
       )}
       <h2>Fecha de nacimieto: {perfil.fechaDeNacimiento}</h2>
       {!editandoFecha ? (
-        <button onClick={() => setEditandoFecha(true)}>Cambiar correo</button>
+        <button onClick={() => setEditandoFecha(true)}>Cambiar fecha de nacimiento</button>
       ) : (
         <div>
           <input
