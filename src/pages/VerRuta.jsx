@@ -121,6 +121,7 @@ function VerRuta() {
     }
   }, [rutas]);
 
+  
   return (
     <div id="contenedor">
       <h1>Prueba de visualización</h1>
