@@ -12,13 +12,11 @@ function VerRuta() {
   const [markers, setMarkers] = useState([]);
   const [directions, setDirections] = useState(null);
 
-  // Carga el script de Google Maps
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_MAPS,
     libraries: ["places"],
   });
 
-  // Conseguir rutas desde Supabase
   const conseguirRutas = useCallback(async () => {
     try {
       const { data, error } = await client
@@ -39,14 +37,12 @@ function VerRuta() {
     conseguirRutas();
   }, [conseguirRutas]);
 
-  // Selecciona automáticamente la primera ruta al cargar
   useEffect(() => {
     if (rutas.length > 0 && !rutaSeleccionada) {
       setRutaSeleccionada(rutas[0].idrutapersonalizada);
     }
   }, [rutas, rutaSeleccionada]);
 
-  // Geocodifica direcciones string y arma los markers SOLO de la ruta seleccionada
   useEffect(() => {
     const geocode = async (direccion) => {
       const url = `${GEOCODE_URL}?address=${encodeURIComponent(direccion)}&key=${import.meta.env.VITE_MAPS}`;
@@ -90,7 +86,6 @@ function VerRuta() {
     }
   }, [rutas, rutaSeleccionada]);
 
-  // DirectionsRenderer: calcula la ruta real entre los puntos de la ruta seleccionada
   useEffect(() => {
     if (markers.length >= 2 && window.google && window.google.maps) {
       const origin = markers[0].position;
@@ -141,7 +136,6 @@ function VerRuta() {
 
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
-  // --- NUEVO: Extrae info de la ruta ---
   const leg = directions?.routes?.[0]?.legs?.[0];
   const tiempo = leg?.duration?.text;
   const distancia = leg?.distance?.text;
@@ -149,72 +143,74 @@ function VerRuta() {
 
   return (
     <div id="contenedor">
-      <h1>Prueba de visualización</h1>
-      <h2>Rutas asociadas al usuario:</h2>
-      {/* Selector de ruta */}
-      {rutas.length > 0 && (
-        <div>
-          <label>Selecciona una ruta: </label>
-          <select
-            value={rutaSeleccionada || ""}
-            onChange={e => setRutaSeleccionada(e.target.value)}
-          >
-            <option value="" disabled>Elige una ruta</option>
-            {rutas.map(ruta => (
-              <option key={ruta.idrutapersonalizada} value={ruta.idrutapersonalizada}>
-                {ruta.nombreruta}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      <ul>
-        {rutas.map((ruta) => (
-          <li key={ruta.idrutapersonalizada}>
-            <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
-            <strong>Direcciones:</strong>{" "}
-            {Array.isArray(ruta.direcciones)
-              ? ruta.direcciones.join(", ")
-              : ruta.direcciones}
-            <br />
-            <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
-              Eliminar ruta
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div style={{ width: "100%", height: "400px", marginTop: "2rem" }}>
-        <GoogleMap
-          mapContainerClassName="map-container"
-          center={MAP_CENTER}
-          zoom={13}
-        >
-          {markers.map((marker) => (
-            <Marker
-              key={marker.key}
-              position={marker.position}
-              label={marker.nombreruta ? marker.nombreruta[0] : ""}
-            />
+      <div className="card">
+        <h1>Prueba de visualización</h1>
+        <h2>Rutas asociadas al usuario:</h2>
+        {/* Selector de ruta */}
+        {rutas.length > 0 && (
+          <div className="selector-ruta">
+            <label>Selecciona una ruta: </label>
+            <select
+              value={rutaSeleccionada || ""}
+              onChange={e => setRutaSeleccionada(e.target.value)}
+            >
+              <option value="" disabled>Elige una ruta</option>
+              {rutas.map(ruta => (
+                <option key={ruta.idrutapersonalizada} value={ruta.idrutapersonalizada}>
+                  {ruta.nombreruta}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        <ul>
+          {rutas.map((ruta) => (
+            <li key={ruta.idrutapersonalizada}>
+              <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
+              <strong>Direcciones:</strong>{" "}
+              {Array.isArray(ruta.direcciones)
+                ? ruta.direcciones.join(", ")
+                : ruta.direcciones}
+              <br />
+              <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
+                Eliminar ruta
+              </button>
+            </li>
           ))}
-          {directions && <DirectionsRenderer directions={directions} />}
-        </GoogleMap>
-      </div>
-      {/* --- NUEVO: Resumen de la ruta --- */}
-      {directions && (
-        <div style={{ marginTop: "1rem", background: "#f5f5f5", padding: "1rem", borderRadius: "8px" }}>
-          <h3>Resumen de la ruta</h3>
-          <p>
-            <strong>Duración estimada:</strong> {tiempo}<br />
-            <strong>Distancia:</strong> {distancia}
-          </p>
-          <h4>Instrucciones:</h4>
-          <ol>
-            {pasos.map((step, idx) => (
-              <li key={idx} dangerouslySetInnerHTML={{ __html: step.html_instructions }} />
+        </ul>
+        <div className="map-container">
+          <GoogleMap
+            mapContainerClassName="map-container"
+            center={MAP_CENTER}
+            zoom={13}
+          >
+            {markers.map((marker) => (
+              <Marker
+                key={marker.key}
+                position={marker.position}
+                label={marker.nombreruta ? marker.nombreruta[0] : ""}
+              />
             ))}
-          </ol>
+            {directions && <DirectionsRenderer directions={directions} />}
+          </GoogleMap>
         </div>
-      )}
+        {/* --- NUEVO: Resumen de la ruta --- */}
+        {directions && (
+          <div className="resumen-ruta">
+            <h3>Resumen de la ruta</h3>
+            <p>
+              <strong>Duración estimada:</strong> {tiempo}<br />
+              <strong>Distancia:</strong> {distancia}
+            </p>
+            <h4>Instrucciones:</h4>
+            <ol>
+              {pasos.map((step, idx) => (
+                <li key={idx} dangerouslySetInnerHTML={{ __html: step.html_instructions }} />
+              ))}
+            </ol>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
