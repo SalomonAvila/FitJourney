@@ -5,8 +5,8 @@ import {
   Map,
   AdvancedMarker,
   Pin,
+  DirectionsRenderer,
 } from "@vis.gl/react-google-maps";
-import { Path } from "@vis.gl/react-google-maps";
 import "../styles/VerRuta.css";
 
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -15,7 +15,7 @@ function VerRuta() {
   const [rutas, setRutas] = useState([]);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [paths, setPaths] = useState([]); // Para las rutas de polilínea
+  const [directions, setDirections] = useState(null);
 
   const conseguirRutas = async () => {
     try {
@@ -39,23 +39,7 @@ function VerRuta() {
     conseguirRutas();
   }, []);
 
-  const eliminarRuta = async (idDeRuta) => {
-    try {
-      const { error } = await client
-        .from("rutapersonalizada")
-        .delete()
-        .eq("idrutapersonalizada", idDeRuta);
-      if (error) {
-        console.log("Revise el codigo pa");
-      } else {
-        setRutas(rutas.filter((ruta) => ruta.idrutapersonalizada !== idDeRuta));
-      }
-    } catch (error) {
-      console.log("Error, revise la consulta de eliminacion");
-    }
-  };
-
-  // Geocodifica direcciones que sean string y arma los markers y paths
+  // Geocodifica direcciones que sean string y arma los markers
   useEffect(() => {
     const geocode = async (direccion) => {
       const url = `${GEOCODE_URL}?address=${encodeURIComponent(
@@ -77,49 +61,90 @@ function VerRuta() {
       return null;
     };
 
-    const obtenerMarkersYPaths = async () => {
+    const obtenerMarkers = async () => {
       const allMarkers = [];
-      const allPaths = [];
-      for (const ruta of rutas) {
-        if (Array.isArray(ruta.direcciones)) {
-          const path = [];
-          for (let idx = 0; idx < ruta.direcciones.length; idx++) {
-            const dir = ruta.direcciones[idx];
-            let position = null;
-            if (typeof dir === "object" && dir.lat && dir.lng) {
-              position = dir;
-            } else if (typeof dir === "string") {
-              position = await geocode(dir);
-            }
-            if (position) {
-              allMarkers.push({
-                key: `${ruta.idrutapersonalizada}-${idx}`,
-                position,
-                nombreruta: ruta.nombreruta,
-              });
-              path.push(position);
-            }
+      // Solo tomamos la primera ruta para DirectionsRenderer
+      const ruta = rutas[0];
+      if (ruta && Array.isArray(ruta.direcciones)) {
+        for (let idx = 0; idx < ruta.direcciones.length; idx++) {
+          const dir = ruta.direcciones[idx];
+          let position = null;
+          if (typeof dir === "object" && dir.lat && dir.lng) {
+            position = dir;
+          } else if (typeof dir === "string") {
+            position = await geocode(dir);
           }
-          // Guarda el path de la ruta si tiene al menos 2 puntos
-          if (path.length > 1) {
-            allPaths.push({
-              key: ruta.idrutapersonalizada,
-              path,
+          if (position) {
+            allMarkers.push({
+              key: `${ruta.idrutapersonalizada}-${idx}`,
+              position,
+              nombreruta: ruta.nombreruta,
             });
           }
         }
       }
       setMarkers(allMarkers);
-      setPaths(allPaths);
     };
 
     if (rutas.length > 0) {
-      obtenerMarkersYPaths();
+      obtenerMarkers();
     } else {
       setMarkers([]);
-      setPaths([]);
     }
   }, [rutas]);
+
+  // DirectionsRenderer: calcula la ruta real entre los puntos de la primera ruta
+  useEffect(() => {
+    if (
+      markers.length >= 2 &&
+      window.google &&
+      window.google.maps &&
+      typeof window.google.maps.DirectionsService === "function"
+    ) {
+      const origin = markers[0].position;
+      const destination = markers[markers.length - 1].position;
+      const waypoints = markers.slice(1, -1).map((m) => ({
+        location: m.position,
+        stopover: true,
+      }));
+
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin,
+          destination,
+          waypoints,
+          travelMode: window.google.maps.TravelMode.DRIVING, // Cambia a WALKING si quieres
+        },
+        (result, status) => {
+          if (status === "OK") {
+            setDirections(result);
+          } else {
+            setDirections(null);
+            console.error("Directions request failed:", status);
+          }
+        }
+      );
+    } else {
+      setDirections(null);
+    }
+  }, [markers]);
+
+  const eliminarRuta = async (idDeRuta) => {
+    try {
+      const { error } = await client
+        .from("rutapersonalizada")
+        .delete()
+        .eq("idrutapersonalizada", idDeRuta);
+      if (error) {
+        console.log("Revise el codigo pa");
+      } else {
+        setRutas(rutas.filter((ruta) => ruta.idrutapersonalizada !== idDeRuta));
+      }
+    } catch (error) {
+      console.log("Error, revise la consulta de eliminacion");
+    }
+  };
 
   return (
     <div id="contenedor">
@@ -164,15 +189,8 @@ function VerRuta() {
                 />
               </AdvancedMarker>
             ))}
-            {/* Polilíneas de rutas */}
-            {paths.map((ruta) => (
-              <Path
-                key={ruta.key}
-                path={ruta.path}
-                strokeColor="#00BFFF"
-                strokeWeight={4}
-              />
-            ))}
+            {/* Ruta real de Google */}
+            {directions && <DirectionsRenderer directions={directions} />}
           </Map>
         </APIProvider>
       </div>
