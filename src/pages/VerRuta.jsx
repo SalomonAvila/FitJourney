@@ -9,6 +9,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import "../styles/VerRuta.css";
 
+
+
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 
 function VerRuta() {
@@ -121,7 +123,7 @@ function VerRuta() {
     }
   }, [rutas]);
 
-  
+
   return (
     <div id="contenedor">
       <h1>Prueba de visualización</h1>
