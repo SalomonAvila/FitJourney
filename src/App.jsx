@@ -9,6 +9,7 @@ import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
 import NoEncontrado from './pages/NoEncontrado';
 import { client } from './API/client';
+import PruebaMapa from './pages/PruebaMapa';
 
 function App() {
   const [estaAutenticado, setEstaAutenticado] = useState(null);
@@ -48,6 +49,7 @@ function App() {
         <Route 
           path="/verRuta"
           element={estaAutenticado ? <VerRuta /> : <Login/>}/>
+        <Route path="/mapa"element={<PruebaMapa/>}/>
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
