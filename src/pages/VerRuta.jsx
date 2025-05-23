@@ -140,6 +140,7 @@ function VerRuta() {
       <div style={{ width: "100%", height: "400px", marginTop: "2rem" }}>
         <APIProvider apiKey={import.meta.env.VITE_MAPS}>
           <Map
+            mapId="8880d67f2c003688d6e3925b"
             className="map-container"
             defaultZoom={13}
             defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
