@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { client } from "../API/client";
-import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import "../styles/VerRuta.css";
 
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -21,7 +26,9 @@ function VerRuta() {
     try {
       const { data, error } = await client
         .from("rutapersonalizada")
-        .select("idrutapersonalizada, nombreruta, direcciones, usuario!inner(id)")
+        .select(
+          "idrutapersonalizada, nombreruta, direcciones, usuario!inner(id)"
+        )
         .eq("usuario.id", (await client.auth.getUser()).data.user.id);
       if (error) {
         console.log("Revisa el codigo");
@@ -45,7 +52,9 @@ function VerRuta() {
 
   useEffect(() => {
     const geocode = async (direccion) => {
-      const url = `${GEOCODE_URL}?address=${encodeURIComponent(direccion)}&key=${import.meta.env.VITE_MAPS}`;
+      const url = `${GEOCODE_URL}?address=${encodeURIComponent(
+        direccion
+      )}&key=${import.meta.env.VITE_MAPS}`;
       const resp = await fetch(url);
       const data = await resp.json();
       if (data.status === "OK") {
@@ -57,7 +66,9 @@ function VerRuta() {
 
     const obtenerMarkers = async () => {
       const allMarkers = [];
-      const ruta = rutas.find(r => r.idrutapersonalizada === rutaSeleccionada);
+      const ruta = rutas.find(
+        (r) => r.idrutapersonalizada === rutaSeleccionada
+      );
       if (ruta && Array.isArray(ruta.direcciones)) {
         for (let idx = 0; idx < ruta.direcciones.length; idx++) {
           const dir = ruta.direcciones[idx];
@@ -137,9 +148,8 @@ function VerRuta() {
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
   const leg = directions?.routes?.[0]?.legs?.[0];
-  const tiempo = leg?.duration?.text;
-  const distancia = leg?.distance?.text;
-  const pasos = leg?.steps || [];
+  const tiempo = leg?.duration?.text || "No disponible";
+  const distancia = leg?.distance?.text || "No disponible";
 
   return (
     <div id="contenedor">
@@ -152,11 +162,16 @@ function VerRuta() {
             <label>Selecciona una ruta: </label>
             <select
               value={rutaSeleccionada || ""}
-              onChange={e => setRutaSeleccionada(e.target.value)}
+              onChange={(e) => setRutaSeleccionada(e.target.value)}
             >
-              <option value="" disabled>Elige una ruta</option>
-              {rutas.map(ruta => (
-                <option key={ruta.idrutapersonalizada} value={ruta.idrutapersonalizada}>
+              <option value="" disabled>
+                Elige una ruta
+              </option>
+              {rutas.map((ruta) => (
+                <option
+                  key={ruta.idrutapersonalizada}
+                  value={ruta.idrutapersonalizada}
+                >
                   {ruta.nombreruta}
                 </option>
               ))}
@@ -194,20 +209,15 @@ function VerRuta() {
             {directions && <DirectionsRenderer directions={directions} />}
           </GoogleMap>
         </div>
-        {/* --- NUEVO: Resumen de la ruta --- */}
+        {/* --- Solo métricas clave --- */}
         {directions && (
           <div className="resumen-ruta">
             <h3>Resumen de la ruta</h3>
             <p>
-              <strong>Duración estimada:</strong> {tiempo}<br />
+              <strong>Duración estimada:</strong> {tiempo}
+              <br />
               <strong>Distancia:</strong> {distancia}
             </p>
-            <h4>Instrucciones:</h4>
-            <ol>
-              {pasos.map((step, idx) => (
-                <li key={idx} dangerouslySetInnerHTML={{ __html: step.html_instructions }} />
-              ))}
-            </ol>
           </div>
         )}
       </div>
