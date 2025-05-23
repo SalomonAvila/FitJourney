@@ -30,11 +30,7 @@ function VerRuta() {
           "idrutapersonalizada, nombreruta, direcciones, usuario!inner(id)"
         )
         .eq("usuario.id", (await client.auth.getUser()).data.user.id);
-      if (error) {
-        console.log("Revisa el codigo");
-      } else {
-        setRutas(data);
-      }
+      if (!error) setRutas(data);
     } catch (error) {
       console.log("Error, revisa el codigo");
     }
@@ -135,9 +131,7 @@ function VerRuta() {
         .from("rutapersonalizada")
         .delete()
         .eq("idrutapersonalizada", idDeRuta);
-      if (error) {
-        console.log("Revise el codigo pa");
-      } else {
+      if (!error) {
         setRutas(rutas.filter((ruta) => ruta.idrutapersonalizada !== idDeRuta));
         if (rutaSeleccionada === idDeRuta) setRutaSeleccionada(null);
       }
@@ -146,7 +140,7 @@ function VerRuta() {
     }
   };
 
-  if (!isLoaded) return <div>Cargando mapa...</div>;
+  if (!isLoaded) return <div className="loading">Cargando mapa...</div>;
 
   const { tiempo, distancia } = getResumenRuta(directions);
   function getResumenRuta(directions) {
@@ -159,84 +153,142 @@ function VerRuta() {
       totalSegundos += leg.duration.value;
       totalMetros += leg.distance.value;
     });
-    // Convierte a formato legible
     const minutos = Math.round(totalSegundos / 60);
     const km = (totalMetros / 1000).toFixed(1);
     return {
-      tiempo: `${minutos} mins`,
+      tiempo: `${minutos} min`,
       distancia: `${km} km`,
     };
   }
+
   return (
-    <div id="contenedor">
-      <div className="card">
-        <h1>Prueba de visualización</h1>
-        <h2>Rutas asociadas al usuario:</h2>
-        {/* Selector de ruta */}
-        {rutas.length > 0 && (
-          <div className="selector-ruta">
-            <label>Selecciona una ruta: </label>
-            <select
-              value={rutaSeleccionada || ""}
-              onChange={(e) => setRutaSeleccionada(e.target.value)}
-            >
-              <option value="" disabled>
-                Elige una ruta
-              </option>
-              {rutas.map((ruta) => (
-                <option
-                  key={ruta.idrutapersonalizada}
-                  value={ruta.idrutapersonalizada}
-                >
-                  {ruta.nombreruta}
+    <div className="dashboard-bg">
+      <header className="dashboard-header">
+        <span className="logo-icon">🚴‍♂️</span>
+        <h1>FitJourney</h1>
+        <p>
+          Visualiza y gestiona tus rutas personalizadas de forma fácil y
+          atractiva.
+        </p>
+      </header>
+
+      <main className="dashboard-main">
+        <section className="routes-section">
+          <div className="routes-header">
+            <h2>Mis rutas</h2>
+            <div className="selector-ruta">
+              <label htmlFor="selector">Selecciona una ruta:</label>
+              <select
+                id="selector"
+                value={rutaSeleccionada || ""}
+                onChange={(e) => setRutaSeleccionada(e.target.value)}
+              >
+                <option value="" disabled>
+                  Elige una ruta
                 </option>
-              ))}
-            </select>
+                {rutas.map((ruta) => (
+                  <option
+                    key={ruta.idrutapersonalizada}
+                    value={ruta.idrutapersonalizada}
+                  >
+                    {ruta.nombreruta}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        )}
-        <ul>
-          {rutas.map((ruta) => (
-            <li key={ruta.idrutapersonalizada}>
-              <strong>Nombre de la ruta:</strong> {ruta.nombreruta} <br />
-              <strong>Direcciones:</strong>{" "}
-              {Array.isArray(ruta.direcciones)
-                ? ruta.direcciones.join(", ")
-                : ruta.direcciones}
-              <br />
-              <button onClick={() => eliminarRuta(ruta.idrutapersonalizada)}>
-                Eliminar ruta
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="map-container">
-          <GoogleMap
-            mapContainerClassName="map-container"
-            center={MAP_CENTER}
-            zoom={13}
-          >
-            {markers.map((marker) => (
-              <Marker
-                key={marker.key}
-                position={marker.position}
-                label={marker.nombreruta ? marker.nombreruta[0] : ""}
-              />
+          <div className="routes-list">
+            {rutas.map((ruta) => (
+              <div
+                className={`route-card ${
+                  ruta.idrutapersonalizada === rutaSeleccionada
+                    ? "selected"
+                    : ""
+                }`}
+                key={ruta.idrutapersonalizada}
+                onClick={() => setRutaSeleccionada(ruta.idrutapersonalizada)}
+              >
+                <div className="route-info">
+                  <h3>
+                    <span className="route-icon">📍</span> {ruta.nombreruta}
+                  </h3>
+                  <p>
+                    <span className="direcciones-label">Direcciones:</span>
+                    <br />
+                    {Array.isArray(ruta.direcciones)
+                      ? ruta.direcciones.map((dir, idx) => (
+                          <span key={idx} className="direccion-item">
+                            {dir}
+                            {idx < ruta.direcciones.length - 1 ? <br /> : ""}
+                          </span>
+                        ))
+                      : ruta.direcciones}
+                  </p>
+                </div>
+                <button
+                  className="delete-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    eliminarRuta(ruta.idrutapersonalizada);
+                  }}
+                  title="Eliminar ruta"
+                >
+                  🗑️
+                </button>
+              </div>
             ))}
-            {directions && <DirectionsRenderer directions={directions} />}
-          </GoogleMap>
-        </div>
-        {/* --- Solo métricas clave --- */}
-        {directions && (
-          <div className="resumen-ruta">
-            <h3>Resumen de la ruta</h3>
-            <p>
-              <strong>Duración estimada:</strong> {tiempo}
-              <br />
-              <strong>Distancia:</strong> {distancia}
-            </p>
+            {rutas.length === 0 && (
+              <div className="no-routes">No tienes rutas guardadas.</div>
+            )}
           </div>
-        )}
-      </div>
+        </section>
+
+        <section className="map-section">
+          <div className="map-card">
+            <h2>
+              <span role="img" aria-label="mapa">
+                🗺️
+              </span>{" "}
+              Mapa de la ruta
+            </h2>
+            <div className="map-container">
+              <GoogleMap
+                mapContainerClassName="map-container"
+                center={MAP_CENTER}
+                zoom={13}
+              >
+                {markers.map((marker, idx) => (
+                  <Marker
+                    key={marker.key}
+                    position={marker.position}
+                    label={`${idx + 1}`}
+                  />
+                ))}
+                {directions && <DirectionsRenderer directions={directions} />}
+              </GoogleMap>
+            </div>
+            {directions && (
+              <div className="resumen-ruta-card">
+                <h3>Resumen de la ruta</h3>
+                <div className="resumen-items">
+                  <div className="resumen-item">
+                    <span className="resumen-icon">⏱️</span>
+                    <span>
+                      <strong>Duración:</strong> {tiempo}
+                    </span>
+                  </div>
+                  <div className="resumen-item">
+                    <span className="resumen-icon">📏</span>
+                    <span>
+                      <strong>Distancia:</strong> {distancia}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
