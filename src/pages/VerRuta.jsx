@@ -5,11 +5,9 @@ import {
   Map,
   AdvancedMarker,
   Pin,
-  Polyline,
 } from "@vis.gl/react-google-maps";
+import { Path } from "@vis.gl/react-google-maps";
 import "../styles/VerRuta.css";
-
-
 
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 
@@ -123,7 +121,6 @@ function VerRuta() {
     }
   }, [rutas]);
 
-
   return (
     <div id="contenedor">
       <h1>Prueba de visualización</h1>
@@ -169,7 +166,7 @@ function VerRuta() {
             ))}
             {/* Polilíneas de rutas */}
             {paths.map((ruta) => (
-              <Polyline
+              <Path
                 key={ruta.key}
                 path={ruta.path}
                 strokeColor="#00BFFF"
