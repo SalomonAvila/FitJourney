@@ -5,6 +5,7 @@ import {
   Map,
   AdvancedMarker,
   Pin,
+  Polyline,
 } from "@vis.gl/react-google-maps";
 import "../styles/VerRuta.css";
 
@@ -14,6 +15,7 @@ function VerRuta() {
   const [rutas, setRutas] = useState([]);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [paths, setPaths] = useState([]); // Para las rutas de polilínea
 
   const conseguirRutas = async () => {
     try {
@@ -26,16 +28,17 @@ function VerRuta() {
       if (error) {
         console.log("Revisa el codigo");
       } else {
-        console.log("Datos recibidos de Supabase:", data);
         setRutas(data);
       }
     } catch (error) {
       console.log("Error, revisa el codigo");
     }
   };
+
   useEffect(() => {
     conseguirRutas();
   }, []);
+
   const eliminarRuta = async (idDeRuta) => {
     try {
       const { error } = await client
@@ -52,17 +55,14 @@ function VerRuta() {
     }
   };
 
-  // Geocodifica direcciones que sean string y arma los markers
+  // Geocodifica direcciones que sean string y arma los markers y paths
   useEffect(() => {
-    console.log("Valor actual de rutas:", rutas);
-
     const geocode = async (direccion) => {
       const url = `${GEOCODE_URL}?address=${encodeURIComponent(
         direccion
       )}&key=${import.meta.env.VITE_MAPS}`;
       const resp = await fetch(url);
       const text = await resp.text();
-      console.log("Respuesta cruda de geocoding:", text);
       let data;
       try {
         data = JSON.parse(text);
@@ -74,47 +74,50 @@ function VerRuta() {
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };
       }
-      console.log(
-        "No se pudo geocodificar:",
-        direccion,
-        data.status,
-        data.error_message
-      );
       return null;
     };
 
-    const obtenerMarkers = async () => {
-      console.log("Ejecutando obtenerMarkers");
-      const all = [];
+    const obtenerMarkersYPaths = async () => {
+      const allMarkers = [];
+      const allPaths = [];
       for (const ruta of rutas) {
         if (Array.isArray(ruta.direcciones)) {
+          const path = [];
           for (let idx = 0; idx < ruta.direcciones.length; idx++) {
             const dir = ruta.direcciones[idx];
-            console.log("Procesando dirección:", dir, "Tipo:", typeof dir);
             let position = null;
             if (typeof dir === "object" && dir.lat && dir.lng) {
               position = dir;
             } else if (typeof dir === "string") {
               position = await geocode(dir);
-              console.log("Geocodificando:", dir, "->", position);
             }
             if (position) {
-              all.push({
+              allMarkers.push({
                 key: `${ruta.idrutapersonalizada}-${idx}`,
                 position,
                 nombreruta: ruta.nombreruta,
               });
+              path.push(position);
             }
+          }
+          // Guarda el path de la ruta si tiene al menos 2 puntos
+          if (path.length > 1) {
+            allPaths.push({
+              key: ruta.idrutapersonalizada,
+              path,
+            });
           }
         }
       }
-      setMarkers(all);
+      setMarkers(allMarkers);
+      setPaths(allPaths);
     };
 
     if (rutas.length > 0) {
-      obtenerMarkers();
+      obtenerMarkersYPaths();
     } else {
       setMarkers([]);
+      setPaths([]);
     }
   }, [rutas]);
 
@@ -146,6 +149,7 @@ function VerRuta() {
             defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
             onMapLoad={setMap}
           >
+            {/* Marcadores */}
             {markers.map((marker) => (
               <AdvancedMarker
                 key={marker.key}
@@ -159,6 +163,15 @@ function VerRuta() {
                   glyph=""
                 />
               </AdvancedMarker>
+            ))}
+            {/* Polilíneas de rutas */}
+            {paths.map((ruta) => (
+              <Polyline
+                key={ruta.key}
+                path={ruta.path}
+                strokeColor="#00BFFF"
+                strokeWeight={4}
+              />
             ))}
           </Map>
         </APIProvider>
