@@ -79,6 +79,7 @@ function VerRuta() {
     };
 
     const obtenerMarkers = async () => {
+      console.log("Ejecutando obtenerMarkers");
       const all = [];
       for (const ruta of rutas) {
         if (Array.isArray(ruta.direcciones)) {
@@ -105,6 +106,7 @@ function VerRuta() {
     };
 
     if (rutas.length > 0) {
+        console.log("Rutas cargadas desde Supabase:", data);
       obtenerMarkers();
     } else {
       setMarkers([]);
