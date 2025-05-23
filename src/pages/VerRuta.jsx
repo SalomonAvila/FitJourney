@@ -56,7 +56,15 @@ function VerRuta() {
         direccion
       )}&key=${import.meta.env.VITE_MAPS}`;
       const resp = await fetch(url);
-      const data = await resp.json();
+      const text = await resp.text();
+      console.log("Respuesta cruda de geocoding:", text); // <-- LOG IMPORTANTE
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error("No es JSON válido:", text);
+        return null;
+      }
       if (data.status === "OK") {
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };
