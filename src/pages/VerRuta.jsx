@@ -162,98 +162,85 @@ function VerRuta() {
   }
 
   return (
-    <div className="dashboard-bg">
-      <header className="dashboard-header">
-        <span className="logo-icon">🚴‍♂️</span>
+    <div className="fit-bg">
+      <header className="fit-header">
+        <div className="fit-logo-anim">
+          <span className="fit-logo">🏃‍♂️</span>
+        </div>
         <h1>FitJourney</h1>
-        <p>
-          Visualiza y gestiona tus rutas personalizadas de forma fácil y
-          atractiva.
-        </p>
+        <p>¡Tus rutas deportivas, siempre a la mano!</p>
       </header>
 
-      <main className="dashboard-main">
-        <section className="routes-section">
-          <div className="routes-header">
-            <h2>Mis rutas</h2>
-            <div className="selector-ruta">
-              <label htmlFor="selector">Selecciona una ruta:</label>
-              <select
-                id="selector"
-                value={rutaSeleccionada || ""}
-                onChange={(e) => setRutaSeleccionada(e.target.value)}
-              >
-                <option value="" disabled>
-                  Elige una ruta
+      <main className="fit-main">
+        <aside className="fit-routes">
+          <h2>Rutas guardadas</h2>
+          <div className="fit-selector">
+            <label htmlFor="selector">Selecciona una ruta:</label>
+            <select
+              id="selector"
+              value={rutaSeleccionada || ""}
+              onChange={(e) => setRutaSeleccionada(e.target.value)}
+            >
+              <option value="" disabled>
+                Elige una ruta
+              </option>
+              {rutas.map((ruta) => (
+                <option
+                  key={ruta.idrutapersonalizada}
+                  value={ruta.idrutapersonalizada}
+                >
+                  {ruta.nombreruta}
                 </option>
-                {rutas.map((ruta) => (
-                  <option
-                    key={ruta.idrutapersonalizada}
-                    value={ruta.idrutapersonalizada}
-                  >
-                    {ruta.nombreruta}
-                  </option>
-                ))}
-              </select>
-            </div>
+              ))}
+            </select>
           </div>
-          <div className="routes-list">
+          <div className="fit-routes-list">
             {rutas.map((ruta) => (
               <div
-                className={`route-card ${
+                className={`fit-route-card ${
                   ruta.idrutapersonalizada === rutaSeleccionada
-                    ? "selected"
+                    ? "fit-selected"
                     : ""
                 }`}
                 key={ruta.idrutapersonalizada}
                 onClick={() => setRutaSeleccionada(ruta.idrutapersonalizada)}
               >
-                <div className="route-info">
-                  <h3>
-                    <span className="route-icon">📍</span> {ruta.nombreruta}
-                  </h3>
-                  <p>
-                    <span className="direcciones-label">Direcciones:</span>
-                    <br />
+                <div>
+                  <h3>{ruta.nombreruta}</h3>
+                  <ul>
                     {Array.isArray(ruta.direcciones)
                       ? ruta.direcciones.map((dir, idx) => (
-                          <span key={idx} className="direccion-item">
-                            {dir}
-                            {idx < ruta.direcciones.length - 1 ? <br /> : ""}
-                          </span>
+                          <li key={idx}>{dir}</li>
                         ))
-                      : ruta.direcciones}
-                  </p>
+                      : <li>{ruta.direcciones}</li>}
+                  </ul>
                 </div>
                 <button
-                  className="delete-btn"
+                  className="fit-delete-btn"
                   onClick={(e) => {
                     e.stopPropagation();
                     eliminarRuta(ruta.idrutapersonalizada);
                   }}
                   title="Eliminar ruta"
                 >
-                  🗑️
+                  ✖
                 </button>
               </div>
             ))}
             {rutas.length === 0 && (
-              <div className="no-routes">No tienes rutas guardadas.</div>
+              <div className="fit-no-routes">No tienes rutas guardadas.</div>
             )}
           </div>
-        </section>
+        </aside>
 
-        <section className="map-section">
-          <div className="map-card">
-            <h2>
-              <span role="img" aria-label="mapa">
-                🗺️
-              </span>{" "}
-              Mapa de la ruta
-            </h2>
-            <div className="map-container">
+        <section className="fit-map-section">
+          <div className="fit-map-card">
+            <div className="fit-map-title">
+              <span>🗺️</span> <span>Mapa de la ruta</span>
+            </div>
+            <div className="fit-map-container fade-in">
               <GoogleMap
-                mapContainerClassName="map-container"
+                mapContainerClassName="fit-map"
                 center={MAP_CENTER}
                 zoom={13}
               >
@@ -268,17 +255,17 @@ function VerRuta() {
               </GoogleMap>
             </div>
             {directions && (
-              <div className="resumen-ruta-card">
+              <div className="fit-summary-card fade-in">
                 <h3>Resumen de la ruta</h3>
-                <div className="resumen-items">
-                  <div className="resumen-item">
-                    <span className="resumen-icon">⏱️</span>
+                <div className="fit-summary-items">
+                  <div className="fit-summary-item">
+                    <span className="fit-summary-icon">⏱️</span>
                     <span>
                       <strong>Duración:</strong> {tiempo}
                     </span>
                   </div>
-                  <div className="resumen-item">
-                    <span className="resumen-icon">📏</span>
+                  <div className="fit-summary-item">
+                    <span className="fit-summary-icon">📏</span>
                     <span>
                       <strong>Distancia:</strong> {distancia}
                     </span>
