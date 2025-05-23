@@ -148,10 +148,25 @@ function VerRuta() {
 
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
-  const leg = directions?.routes?.[0]?.legs?.[0];
-  const tiempo = leg?.duration?.text || "No disponible";
-  const distancia = leg?.distance?.text || "No disponible";
-
+  const { tiempo, distancia } = getResumenRuta(directions);
+  function getResumenRuta(directions) {
+    if (!directions?.routes?.[0]?.legs)
+      return { tiempo: "No disponible", distancia: "No disponible" };
+    const legs = directions.routes[0].legs;
+    let totalSegundos = 0;
+    let totalMetros = 0;
+    legs.forEach((leg) => {
+      totalSegundos += leg.duration.value;
+      totalMetros += leg.distance.value;
+    });
+    // Convierte a formato legible
+    const minutos = Math.round(totalSegundos / 60);
+    const km = (totalMetros / 1000).toFixed(1);
+    return {
+      tiempo: `${minutos} mins`,
+      distancia: `${km} km`,
+    };
+  }
   return (
     <div id="contenedor">
       <div className="card">
