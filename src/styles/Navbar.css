@@ -1,25 +1,69 @@
 nav {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: linear-gradient(90deg, #232946 60%, #393e5c 100%);
+  color: #a6e3e9;
+  padding: 0.7rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 18px #23294644;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 nav h1 {
-    margin: 0;
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #a6e3e9;
+  text-shadow: 0 2px 8px #0004;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 nav a {
-    color: white;
-    text-decoration: none;
+  color: #b8c1ec;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  display: inline-block;
+}
+
+nav a:hover,
+nav a:focus {
+  background: #a6e3e9;
+  color: #232946;
+  transform: scale(1.07);
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.7rem 1rem;
+    gap: 0.5rem;
+  }
+  nav ul {
+    gap: 0.7rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  nav h1 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
 }
