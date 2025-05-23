@@ -141,6 +141,12 @@ function VerRuta() {
 
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
+  // --- NUEVO: Extrae info de la ruta ---
+  const leg = directions?.routes?.[0]?.legs?.[0];
+  const tiempo = leg?.duration?.text;
+  const distancia = leg?.distance?.text;
+  const pasos = leg?.steps || [];
+
   return (
     <div id="contenedor">
       <h1>Prueba de visualización</h1>
@@ -193,6 +199,22 @@ function VerRuta() {
           {directions && <DirectionsRenderer directions={directions} />}
         </GoogleMap>
       </div>
+      {/* --- NUEVO: Resumen de la ruta --- */}
+      {directions && (
+        <div style={{ marginTop: "1rem", background: "#f5f5f5", padding: "1rem", borderRadius: "8px" }}>
+          <h3>Resumen de la ruta</h3>
+          <p>
+            <strong>Duración estimada:</strong> {tiempo}<br />
+            <strong>Distancia:</strong> {distancia}
+          </p>
+          <h4>Instrucciones:</h4>
+          <ol>
+            {pasos.map((step, idx) => (
+              <li key={idx} dangerouslySetInnerHTML={{ __html: step.html_instructions }} />
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 }
