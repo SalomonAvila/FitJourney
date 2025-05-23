@@ -1,42 +1,184 @@
-/* Estilo para el contenedor principal */
-#info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 60px); /* Resta la altura de la navbar */
-    margin: 0 auto;
-    padding: 20px;
-    background-color: black;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+body, html {
+  background: linear-gradient(135deg, #181c24 0%, #232946 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+
+.perfil-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: transparent;
+}
+
+.perfil-header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem 1rem;
+  background: rgba(24, 28, 36, 0.98);
+  color: #fff;
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+}
+
+.perfil-logo-anim {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  animation: bounce 1.5s infinite alternate;
+}
+@keyframes bounce {
+  0% { transform: translateY(0);}
+  100% { transform: translateY(-10px);}
+}
+
+.perfil-logo {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 2px 8px #a6e3e9aa);
+}
+
+.perfil-header h1 {
+  font-size: 2.2rem;
+  margin: 0.2rem 0 0.5rem 0;
+  letter-spacing: 2px;
+  color: #a6e3e9;
+  font-weight: 800;
+  text-shadow: 0 2px 12px #0008;
+}
+
+.perfil-header p {
+  font-size: 1.1rem;
+  color: #b8c1ec;
+  margin: 0;
+  font-weight: 500;
+}
+
+.perfil-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem 2rem 1rem;
+  min-height: 60vh;
+}
+
+.perfil-card {
+  background: linear-gradient(120deg, #232946 0%, #393e5c 100%);
+  border-radius: 18px;
+  box-shadow: 0 6px 32px #23294644;
+  padding: 2.2rem 2.5rem 2rem 2.5rem;
+  min-width: 340px;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: fadeInUp 1s;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.perfil-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.perfil-label {
+  color: #a6e3e9;
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 120px;
+}
+
+.perfil-value {
+  color: #e0e7ef;
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.perfil-edit-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.perfil-input {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #a6e3e9;
+  background: #232946;
+  color: #e0e7ef;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.perfil-input:focus {
+  border: 2px solid #a6e3e9;
+}
+
+.perfil-btn-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.perfil-btn-main {
+  background: linear-gradient(90deg, #a6e3e9 0%, #b8c1ec 100%);
+  color: #232946;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin: 0 0.5rem;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px #23294622;
+}
+.perfil-btn-main:hover {
+  background: linear-gradient(90deg, #b8c1ec 0%, #a6e3e9 100%);
+  color: #181c24;
+  transform: scale(1.04);
+}
+
+.perfil-btn-sec {
+  background: #232946;
+  color: #a6e3e9;
+  border: 1.5px solid #a6e3e9;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 0.2rem;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.perfil-btn-sec:hover {
+  background: #a6e3e9;
+  color: #232946;
+  transform: scale(1.04);
+}
+
+@media (max-width: 600px) {
+  .perfil-card {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    min-width: 0;
+    max-width: 98vw;
   }
-  
-  /* Estilo para el título principal */
-  h1 {
-    text-align: center;
-    font-size: 32px;
-    color: white;
-    margin-bottom: 20px;
+  .perfil-main {
+    padding: 2rem 0.2rem 1rem 0.2rem;
   }
-  
-  /* Estilo para los subtítulos */
-  h2 {
-    font-size: 22px;
-    color: white;
-    margin: 10px 0;
-  }
-  
-  /* Resalta los valores de las propiedades */
-  h2 span {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  /* Fondo de la página */
-  body {
-    background-color: black;
-    margin: 0;
-    padding: 0;
-  }
+}
