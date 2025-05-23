@@ -26,6 +26,7 @@ function VerRuta() {
       if (error) {
         console.log("Revisa el codigo");
       } else {
+        console.log("Datos recibidos de Supabase:", data);
         setRutas(data);
       }
     } catch (error) {
@@ -51,67 +52,62 @@ function VerRuta() {
 
   // Geocodifica direcciones que sean string y arma los markers
   useEffect(() => {
-    const geocode = async (direccion) => {
-      const url = `${GEOCODE_URL}?address=${encodeURIComponent(
-        direccion
-      )}&key=${import.meta.env.VITE_MAPS}`;
-      const resp = await fetch(url);
-      const text = await resp.text();
-      console.log("Respuesta cruda de geocoding:", text); // <-- LOG IMPORTANTE
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        console.error("No es JSON válido:", text);
-        return null;
-      }
-      if (data.status === "OK") {
-        const { lat, lng } = data.results[0].geometry.location;
-        return { lat, lng };
-      }
-      console.log(
-        "No se pudo geocodificar:",
-        direccion,
-        data.status,
-        data.error_message
-      );
-      return null;
-    };
+  console.log("Valor actual de rutas:", rutas);
 
-    const obtenerMarkers = async () => {
-      console.log("Ejecutando obtenerMarkers");
-      const all = [];
-      for (const ruta of rutas) {
-        if (Array.isArray(ruta.direcciones)) {
-          for (let idx = 0; idx < ruta.direcciones.length; idx++) {
-            const dir = ruta.direcciones[idx];
-            let position = null;
-            if (typeof dir === "object" && dir.lat && dir.lng) {
-              position = dir;
-            } else if (typeof dir === "string") {
-              position = await geocode(dir);
-              console.log("Geocodificando:", dir, "->", position);
-            }
-            if (position) {
-              all.push({
-                key: `${ruta.idrutapersonalizada}-${idx}`,
-                position,
-                nombreruta: ruta.nombreruta,
-              });
-            }
+  const geocode = async (direccion) => {
+    const url = `${GEOCODE_URL}?address=${encodeURIComponent(direccion)}&key=${import.meta.env.VITE_MAPS}`;
+    const resp = await fetch(url);
+    const text = await resp.text();
+    console.log("Respuesta cruda de geocoding:", text);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("No es JSON válido:", text);
+      return null;
+    }
+    if (data.status === "OK") {
+      const { lat, lng } = data.results[0].geometry.location;
+      return { lat, lng };
+    }
+    console.log("No se pudo geocodificar:", direccion, data.status, data.error_message);
+    return null;
+  };
+
+  const obtenerMarkers = async () => {
+    console.log("Ejecutando obtenerMarkers");
+    const all = [];
+    for (const ruta of rutas) {
+      if (Array.isArray(ruta.direcciones)) {
+        for (let idx = 0; idx < ruta.direcciones.length; idx++) {
+          const dir = ruta.direcciones[idx];
+          console.log("Procesando dirección:", dir, "Tipo:", typeof dir);
+          let position = null;
+          if (typeof dir === "object" && dir.lat && dir.lng) {
+            position = dir;
+          } else if (typeof dir === "string") {
+            position = await geocode(dir);
+            console.log("Geocodificando:", dir, "->", position);
+          }
+          if (position) {
+            all.push({
+              key: `${ruta.idrutapersonalizada}-${idx}`,
+              position,
+              nombreruta: ruta.nombreruta,
+            });
           }
         }
       }
-      setMarkers(all);
-    };
-
-    if (rutas.length > 0) {
-        console.log("Rutas cargadas desde Supabase:", data);
-      obtenerMarkers();
-    } else {
-      setMarkers([]);
     }
-  }, [rutas]);
+    setMarkers(all);
+  };
+
+  if (rutas.length > 0) {
+    obtenerMarkers();
+  } else {
+    setMarkers([]);
+  }
+}, [rutas]);
 
   return (
     <div id="contenedor">
