@@ -27,14 +27,65 @@ body, html {
 
 .home-logo-anim {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 0.2rem;
-  animation: bounce 1.5s infinite alternate;
+  animation: runBounce 1.1s cubic-bezier(0.4, 0.2, 0.2, 1) infinite;
+  will-change: transform;
+  position: relative;
 }
-@keyframes bounce {
-  0% { transform: translateY(0);}
-  100% { transform: translateY(-10px);}
+
+.home-logo-shadow {
+  width: 48px;
+  height: 12px;
+  background: radial-gradient(ellipse at center, #0006 60%, transparent 100%);
+  margin-top: -10px;
+  border-radius: 50%;
+  filter: blur(1.5px);
+  animation: shadowBounce 1.1s cubic-bezier(0.4, 0.2, 0.2, 1) infinite;
+}
+
+@keyframes runBounce {
+  0% {
+    transform: translateY(0) scaleX(1) scaleY(1) rotate(-8deg);
+    filter: drop-shadow(0 2px 8px #a6e3e9aa);
+  }
+  10% {
+    transform: translateY(-10px) scaleX(1.08) scaleY(0.96) rotate(-2deg);
+    filter: drop-shadow(0 8px 16px #a6e3e9cc);
+  }
+  20% {
+    transform: translateY(-22px) scaleX(0.96) scaleY(1.09) rotate(7deg);
+    filter: drop-shadow(0 14px 28px #a6e3e9cc);
+  }
+  30% {
+    transform: translateY(-10px) scaleX(1.05) scaleY(0.97) rotate(4deg);
+    filter: drop-shadow(0 8px 16px #a6e3e9cc);
+  }
+  40% {
+    transform: translateY(0) scaleX(1) scaleY(1) rotate(-6deg);
+    filter: drop-shadow(0 2px 8px #a6e3e9aa);
+  }
+  60% {
+    transform: translateY(6px) scaleX(1.12) scaleY(0.93) rotate(-10deg);
+    filter: drop-shadow(0 2px 8px #a6e3e9aa);
+  }
+  80% {
+    transform: translateY(0) scaleX(1) scaleY(1) rotate(-8deg);
+    filter: drop-shadow(0 2px 8px #a6e3e9aa);
+  }
+  100% {
+    transform: translateY(0) scaleX(1) scaleY(1) rotate(-8deg);
+    filter: drop-shadow(0 2px 8px #a6e3e9aa);
+  }
+}
+
+@keyframes shadowBounce {
+  0%   { transform: scaleX(1) scaleY(1) translateY(0); opacity: 0.7; }
+  20%  { transform: scaleX(0.7) scaleY(0.8) translateY(2px); opacity: 0.4; }
+  40%  { transform: scaleX(1.1) scaleY(0.7) translateY(4px); opacity: 0.25; }
+  60%  { transform: scaleX(0.8) scaleY(0.9) translateY(2px); opacity: 0.5; }
+  100% { transform: scaleX(1) scaleY(1) translateY(0); opacity: 0.7; }
 }
 
 .home-logo {
