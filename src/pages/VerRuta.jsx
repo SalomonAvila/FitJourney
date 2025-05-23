@@ -146,7 +146,7 @@ function VerRuta() {
             mapId="8880d67f2c003688d6e3925b"
             className="map-container"
             defaultZoom={13}
-            defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
+            defaultCenter={{ lat: 4.65, lng: -74.08 }}
             onMapLoad={setMap}
           >
             {/* Marcadores */}
