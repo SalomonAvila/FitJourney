@@ -8,8 +8,8 @@ body, html {
 
 .perfil-bg {
   min-height: 100vh;
-  width: 100vw;
-  background: transparent;
+  min-width: 100vw;
+  background: linear-gradient(135deg, #181c24 0%, #232946 100%);
 }
 
 .perfil-header {
