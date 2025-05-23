@@ -61,6 +61,12 @@ function VerRuta() {
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };
       }
+      console.log(
+        "No se pudo geocodificar:",
+        direccion,
+        data.status,
+        data.error_message
+      );
       return null;
     };
 
@@ -75,6 +81,7 @@ function VerRuta() {
               position = dir;
             } else if (typeof dir === "string") {
               position = await geocode(dir);
+              console.log("Geocodificando:", dir, "->", position);
             }
             if (position) {
               all.push({
