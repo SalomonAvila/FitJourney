@@ -112,6 +112,7 @@ function VerRuta() {
           origin,
           destination,
           waypoints,
+          optimizeWaypoints: false,
           travelMode: window.google.maps.TravelMode.DRIVING,
         },
         (result, status) => {
