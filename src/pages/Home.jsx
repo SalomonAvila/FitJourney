@@ -40,6 +40,7 @@ function Home() {
       <header className="home-header">
         <div className="home-logo-anim">
           <span className="home-logo">🏃‍♂️</span>
+          <div className="home-logo-shadow"></div>
         </div>
         <h1>
           Bienvenido a <span className="home-accent">FitJourney</span>
