@@ -8,6 +8,7 @@ const MAP_CENTER = { lat: 4.65, lng: -74.08 };
 
 function VerRuta() {
   const [rutas, setRutas] = useState([]);
+  const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [directions, setDirections] = useState(null);
 
@@ -38,7 +39,14 @@ function VerRuta() {
     conseguirRutas();
   }, [conseguirRutas]);
 
-  // Geocodifica direcciones string y arma los markers
+  // Selecciona automáticamente la primera ruta al cargar
+  useEffect(() => {
+    if (rutas.length > 0 && !rutaSeleccionada) {
+      setRutaSeleccionada(rutas[0].idrutapersonalizada);
+    }
+  }, [rutas, rutaSeleccionada]);
+
+  // Geocodifica direcciones string y arma los markers SOLO de la ruta seleccionada
   useEffect(() => {
     const geocode = async (direccion) => {
       const url = `${GEOCODE_URL}?address=${encodeURIComponent(direccion)}&key=${import.meta.env.VITE_MAPS}`;
@@ -53,7 +61,7 @@ function VerRuta() {
 
     const obtenerMarkers = async () => {
       const allMarkers = [];
-      const ruta = rutas[0]; // Solo la primera ruta
+      const ruta = rutas.find(r => r.idrutapersonalizada === rutaSeleccionada);
       if (ruta && Array.isArray(ruta.direcciones)) {
         for (let idx = 0; idx < ruta.direcciones.length; idx++) {
           const dir = ruta.direcciones[idx];
@@ -75,14 +83,14 @@ function VerRuta() {
       setMarkers(allMarkers);
     };
 
-    if (rutas.length > 0) {
+    if (rutas.length > 0 && rutaSeleccionada) {
       obtenerMarkers();
     } else {
       setMarkers([]);
     }
-  }, [rutas]);
+  }, [rutas, rutaSeleccionada]);
 
-  // DirectionsRenderer: calcula la ruta real entre los puntos de la primera ruta
+  // DirectionsRenderer: calcula la ruta real entre los puntos de la ruta seleccionada
   useEffect(() => {
     if (markers.length >= 2 && window.google && window.google.maps) {
       const origin = markers[0].position;
@@ -124,6 +132,7 @@ function VerRuta() {
         console.log("Revise el codigo pa");
       } else {
         setRutas(rutas.filter((ruta) => ruta.idrutapersonalizada !== idDeRuta));
+        if (rutaSeleccionada === idDeRuta) setRutaSeleccionada(null);
       }
     } catch (error) {
       console.log("Error, revise la consulta de eliminacion");
@@ -136,6 +145,23 @@ function VerRuta() {
     <div id="contenedor">
       <h1>Prueba de visualización</h1>
       <h2>Rutas asociadas al usuario:</h2>
+      {/* Selector de ruta */}
+      {rutas.length > 0 && (
+        <div>
+          <label>Selecciona una ruta: </label>
+          <select
+            value={rutaSeleccionada || ""}
+            onChange={e => setRutaSeleccionada(e.target.value)}
+          >
+            <option value="" disabled>Elige una ruta</option>
+            {rutas.map(ruta => (
+              <option key={ruta.idrutapersonalizada} value={ruta.idrutapersonalizada}>
+                {ruta.nombreruta}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <ul>
         {rutas.map((ruta) => (
           <li key={ruta.idrutapersonalizada}>
