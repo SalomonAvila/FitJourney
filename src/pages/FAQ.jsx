@@ -1,29 +1,29 @@
 import React from "react";
 import "../styles/FAQ.css";
 
-//Arreglar textos
 const faqs = [
   {
     question: "¿Qué es FitJourney?",
-    answer: "FitJourney es una plataforma para ayudarte a llevar un seguimiento de tus rutinas, progresos y hábitos saludables de manera sencilla y visual."
+    answer: "FitJourney es una innovadora plataforma web desarrollada por estudiantes apasionados por el ciclismo. A través de esta herramienta, podrás diseñar rutas personalizadas según tus preferencias y necesidades, además de consultar diferentes métricas relacionadas con tu recorrido. Nuestro objetivo es acompañarte en cada paso de tu viaje fitness."
   },
   {
     question: "¿Cómo puedo registrar mis entrenamientos?",
-    answer: "Puedes registrar tus entrenamientos desde el panel principal, seleccionando el tipo de actividad, duración y notas adicionales."
+    answer: "Para registrar tus entrenamientos, dirígete a la pestaña de 'Crear Rutas' ubicada en la barra de navegación principal. Al hacer clic en esta opción, se desplegará un menú que te permitirá definir el nombre de la ruta, así como la cantidad de paradas o puntos que deseas incluir en ella. Es importante tener en cuenta que esta funcionalidad está disponible únicamente si tienes una sesión iniciada, ya que requiere el acceso a tu perfil personal para guardar los datos correctamente."
   },
   {
     question: "¿FitJourney es gratis?",
-    answer: "Sí, puedes usar FitJourney de forma gratuita. Algunas funciones avanzadas pueden requerir una suscripción en el futuro."
+    answer: "Sí, actualmente FitJourney está disponible de forma totalmente gratuita para todos los usuarios. Nuestro propósito es brindar una herramienta accesible y útil para toda la comunidad ciclista. Sin embargo, en el futuro podríamos incorporar funciones adicionales más avanzadas que podrían requerir una suscripción o membresía premium, con el fin de mejorar y sostener el servicio."
   },
   {
     question: "¿Puedo usar FitJourney en mi móvil?",
-    answer: "¡Por supuesto! FitJourney está optimizado para dispositivos móviles y de escritorio."
+    answer: "En este momento, te recomendamos utilizar FitJourney preferiblemente desde un navegador web en un dispositivo de escritorio o portátil, ya que la interfaz actual no está completamente optimizada para móviles. Somos conscientes de esta limitación y estamos trabajando para mejorar la experiencia en dispositivos móviles en futuras versiones de la plataforma."
   },
   {
     question: "¿Cómo protegen mi información?",
-    answer: "Tu privacidad es importante. Toda tu información se almacena de forma segura y nunca se comparte con terceros sin tu consentimiento."
+    answer: "Nos tomamos muy en serio la privacidad y la seguridad de tu información. Todos los datos que nos proporcionas se almacenan cuidadosamente en una base de datos protegida, con estrictas medidas de control y acceso restringido. Nuestro compromiso es garantizar altos niveles de seguridad para que tus datos personales y de entrenamiento estén siempre resguardados y seguros."
   }
 ];
+
 
 function FAQ() {
   return (
