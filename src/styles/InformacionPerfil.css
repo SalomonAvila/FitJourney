@@ -105,23 +105,9 @@ body, html {
   flex: 1;
 }
 
-.perfil-edit-group {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-.perfil-input {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1.5px solid #a6e3e9;
-  background: #232946;
-  color: #e0e7ef;
-  font-size: 1rem;
-  font-weight: 500;
-  outline: none;
-  transition: border 0.2s;
+.perfil-edit-group .perfil-input {
+  flex: 1 1 120px; /* Input crece pero no desborda */
+  min-width: 0;
 }
 
 .perfil-input:focus {
