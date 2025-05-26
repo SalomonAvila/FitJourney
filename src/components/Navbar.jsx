@@ -14,7 +14,7 @@ const Navbar = () => {
         <li><a href="#Perfil" onClick={() => navigate("/informacionPerfil")}>Perfil</a></li>
         <li><a href="#Crear rutas" onClick={() => navigate("/anadirRuta")}>Crear Rutas</a></li>
         <li><a href="#Ver rutas" onClick={() => navigate("/verRuta")}>Ver Rutas</a></li>
-        <li><a href="#Preguntas frecuentes" onClick={() => navigate("/FAQ")}></a></li>
+        <li><a href="#Preguntas frecuentes" onClick={() => navigate("/FAQ")}>FAQ</a></li>
       </ul>
     </nav>
   );
