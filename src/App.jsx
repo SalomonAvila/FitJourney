@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import InformacionPerfil from './pages/InformacionPerfil'
 import AnadirRuta from './pages/AnadirRuta';
 import VerRuta from './pages/VerRuta';
+import FAQ from './pages/FAQ';
 import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
 import NoEncontrado from './pages/NoEncontrado';
@@ -50,6 +51,7 @@ function App() {
           path="/verRuta"
           element={estaAutenticado ? <VerRuta /> : <Login/>}/>
         <Route path="/mapa"element={<PruebaMapa/>}/>
+        <Route path="/FAQ" element={<FAQ />} />
         <Route path="*" element={<NoEncontrado />} />
       </Routes>
     </div>
