@@ -107,15 +107,26 @@ body, html {
 
 .perfil-edit-group {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
-  width: 100%;
-  flex-wrap: wrap; /* Permite salto de línea si no cabe */
+  gap: 0.5rem;
+  width: auto;
+  flex-wrap: nowrap;
+  margin-left: 0.5rem;
 }
 
 .perfil-edit-group .perfil-input {
   flex: 1 1 120px;
   min-width: 0;
+  max-width: 140px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1.5px solid #a6e3e9;
+  background: #232946;
+  color: #e0e7ef;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: border 0.2s;
 }
 
 .perfil-input:focus {
@@ -159,6 +170,7 @@ body, html {
   cursor: pointer;
   margin: 0 0.2rem;
   transition: background 0.2s, color 0.2s, transform 0.2s;
+  white-space: nowrap;
 }
 .perfil-btn-sec:hover {
   background: #a6e3e9;
@@ -168,20 +180,37 @@ body, html {
 
 .perfil-edit-group .perfil-btn-main,
 .perfil-edit-group .perfil-btn-sec {
-  flex-shrink: 0; /* Los botones no se encogen */
-  white-space: nowrap; /* El texto no se parte */
-  min-width: 110px;
+  flex-shrink: 0;
+  min-width: 90px;
+  max-width: 120px;
+  white-space: nowrap;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @media (max-width: 600px) {
+  .perfil-card {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    min-width: 0;
+    max-width: 98vw;
+  }
+  .perfil-main {
+    padding: 2rem 0.2rem 1rem 0.2rem;
+  }
   .perfil-edit-group {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
+    width: 100%;
+    margin-left: 0;
   }
+  .perfil-edit-group .perfil-input,
   .perfil-edit-group .perfil-btn-main,
   .perfil-edit-group .perfil-btn-sec {
+    max-width: 100%;
     width: 100%;
     min-width: 0;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
   }
 }
