@@ -105,8 +105,16 @@ body, html {
   flex: 1;
 }
 
+.perfil-edit-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap; /* Permite salto de línea si no cabe */
+}
+
 .perfil-edit-group .perfil-input {
-  flex: 1 1 120px; /* Input crece pero no desborda */
+  flex: 1 1 120px;
   min-width: 0;
 }
 
@@ -158,13 +166,22 @@ body, html {
   transform: scale(1.04);
 }
 
+.perfil-edit-group .perfil-btn-main,
+.perfil-edit-group .perfil-btn-sec {
+  flex-shrink: 0; /* Los botones no se encogen */
+  white-space: nowrap; /* El texto no se parte */
+  min-width: 110px;
+}
+
 @media (max-width: 600px) {
-  .perfil-card {
-    padding: 1.2rem 0.5rem 1rem 0.5rem;
-    min-width: 0;
-    max-width: 98vw;
+  .perfil-edit-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
   }
-  .perfil-main {
-    padding: 2rem 0.2rem 1rem 0.2rem;
+  .perfil-edit-group .perfil-btn-main,
+  .perfil-edit-group .perfil-btn-sec {
+    width: 100%;
+    min-width: 0;
   }
 }
