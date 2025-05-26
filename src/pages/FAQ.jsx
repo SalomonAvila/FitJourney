@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/FAQ.CSS";
+import "../styles/FAQ.css";
 
 //Arreglar textos
 const faqs = [
