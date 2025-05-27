@@ -8,7 +8,10 @@ function Reportar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí podrías enviar el reporte a tu backend o servicio
+    /**
+     * Para hacer despues, integrar con la base de datos cuando
+     * esté terminada
+     */
     setEnviado(true);
     setAsunto("");
     setMensaje("");
