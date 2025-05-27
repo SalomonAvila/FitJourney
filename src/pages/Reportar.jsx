@@ -1,20 +1,40 @@
 import React, { useState } from "react";
+import { client } from "../API/client";
 import "../styles/Reportar.css";
 
 function Reportar() {
   const [asunto, setAsunto] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [enviado, setEnviado] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    /**
-     * Para hacer despues, integrar con la base de datos cuando
-     * esté terminada
-     */
-    setEnviado(true);
-    setAsunto("");
-    setMensaje("");
+    setError("");
+    try {
+      const { data: authData, error: authError } = await client.auth.getUser();
+      if (authError || !authData?.user) {
+        setError("Debes iniciar sesión para enviar un reporte.");
+        return;
+      }
+      const userId = authData.user.id;
+      const { error: insertError } = await client
+        .from("reportes_errores")
+        .insert({
+          idusuario: userId,
+          asunto: asunto,
+          descripcion: mensaje,
+        });
+      if (insertError) {
+        setError("No se pudo enviar el reporte. Intenta de nuevo.");
+        return;
+      }
+      setEnviado(true);
+      setAsunto("");
+      setMensaje("");
+    } catch (err) {
+      setError("Ocurrió un error inesperado.");
+    }
   };
 
   return (
@@ -62,6 +82,7 @@ function Reportar() {
             >
               Enviar reporte
             </button>
+            {error && <div className="reportar-error">{error}</div>}
           </form>
         )}
       </div>
